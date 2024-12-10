@@ -6,12 +6,15 @@
     int col=1;
 %}
 
-taille [+]?([1-9][0-9]*)
-integer [+-]?([1-9][0-9]*|0)
-float [+-]?([0-9]+.[0-9]+)
+lettre [a-zA-Z]
+chiffre [0-9]
+taille [+]?([1-9]{chiffre}*)
+integer [+-]?([1-9]{chiffre}*|0)
+float [+-]?({chiffre}+.{chiffre}+)
+signe_formatage \"%d\"|\"%f\"|\"%s\"
 String \"[^\n\"]*\"
 commentaire ##(.|\n)*##
-identificateur [a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*
+identificateur {lettre}({lettre}|{chiffre}|_({lettre}|{chiffre}))*
 
 
 %%
@@ -81,6 +84,11 @@ identificateur [a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*
     col+=yyleng;
     printf("L'entité 'float' est détectée\n");
     return FLOAT_TOK;
+}
+{signe_formatage} {
+    col+=yyleng;
+    printf("Signe de formatage détecté '%s' détecté\n", yytext);
+    return signe_formatage;
 }
 {String} {
     col+=yyleng;
@@ -154,7 +162,7 @@ identificateur [a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*
 "/" {
     col+=yyleng;
     printf("Division détectée\n");
-    return devise;
+    return divide;
 }
 "*" {
     col+=yyleng;
