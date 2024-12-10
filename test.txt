@@ -1,13 +1,1 @@
-##wah khayiii
-hohoohohoy
-maninii;
-##
-program ilyes
-{
-x:=3;
-integer Const wiwi := -44;
-ily__es:=33;
-ilyeeeeeeeeeeeeees:=33.33;
-manini:="hohoy
-\n ss";
-}
+ilyes := "manini";
