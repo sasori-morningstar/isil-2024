@@ -1,1 +1,31 @@
-ilyes := "manini";
+program testing_i {
+    ##déclaration variables simple##
+    integer x;
+    float x2;
+    String x3;
+    ##déclaration constants##
+    integer Const b;
+    float Const b2;
+    String Const b3;
+    ##déclaration tableaux ##
+    integer t[5];
+    float t2[5];
+    String t3[5];
+    ##déclaration variables multiples##
+    integer y, y2, y3;
+    float y4, y5, y6;
+    String y7, y8, y9;
+    ##test affectations##
+    x := 3;
+    x := x1 + x2;
+    t[2] := a+b/2;
+
+    ##test boucle##
+    For(x:=0;x<20;x++)
+    Begin
+        x2 := 33;
+        x3++;
+        In("%d", A);
+        Out("La somme est %d", c);
+    End
+}

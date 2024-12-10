@@ -80,7 +80,7 @@ extern int yydebug;
     greater_or_equals = 281,       /* greater_or_equals  */
     add = 282,                     /* add  */
     substract = 283,               /* substract  */
-    devise = 284,                  /* devise  */
+    divide = 284,                  /* divide  */
     multiply = 285,                /* multiply  */
     open_bracket = 286,            /* open_bracket  */
     close_bracket = 287,           /* close_bracket  */
@@ -89,7 +89,8 @@ extern int yydebug;
     open_parenthesis = 290,        /* open_parenthesis  */
     close_parenthesis = 291,       /* close_parenthesis  */
     vrg = 292,                     /* vrg  */
-    err = 293                      /* err  */
+    err = 293,                     /* err  */
+    signe_formatage = 294          /* signe_formatage  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
