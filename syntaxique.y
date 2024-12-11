@@ -39,8 +39,8 @@ Affectation_Variable_Simple: identificateur aff Expression pvg {
 Affectation_Element_Tableau: Element_Tableau aff Expression pvg {
     printf("Affectation élement du tableau réussi\n");
 };
-Incrementation: identificateur add add;
-Decrementation: identificateur substract substract;
+Incrementation: Donnee_Assignable add add;
+Decrementation: Donnee_Assignable substract substract;
 Operation_Speciale: Incrementation | Decrementation;
 Comparaison: doesnt_equal | equals | less | less_or_equals | greater | greater_or_equals;
 Condition: Expression Comparaison Expression;
