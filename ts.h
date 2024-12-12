@@ -29,6 +29,13 @@ void insererType(char entite[], char type[])
         strcpy(ts[posEntite].typeEntite, type);
     }
 }
+void insererTaille(char entite[], int taille)
+{
+    int posEntite=rechercher(entite);
+    if(posEntite!=-1){
+        ts[posEntite].tailleEntite=taille;
+    }
+}
 int rechercher(char entite[])
 {
     int i = 0;

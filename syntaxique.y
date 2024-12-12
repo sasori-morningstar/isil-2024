@@ -41,23 +41,43 @@ Type_Donnee: mc_String{
 }| mc_integer{
     strcpy(sauvType, $1);
 };
+Affectation_String: identificateur aff String pvg{
+    if(rechercherType($1)==0){
+        printf("Erreur semantique: %s non déclaré, ligne %d, colonne %d\n", $1, nb_lignes, col);
+    }else{
+        insererTaille($1, strlen($3)-2);
+    }
+}
 Groupe_Identificateurs: identificateur {
     if(rechercherType($1)==0){
-        inserer($1, sauvType,1);
+        if(strcmp(sauvType, "String")==0){
+            inserer($1, sauvType, 0);
+        }else {
+            inserer($1, sauvType, 1);
+        }
     }else{
         printf("Erreur semantique: double declaration de %s, ligne %d, colonne %d\n", $1, nb_lignes, col);
     }
 } | identificateur vrg Groupe_Identificateurs{
         if(rechercherType($1)==0){
-            inserer($1, sauvType,1);
+            if(strcmp(sauvType, "String")==0){
+                inserer($1, sauvType, 0);
+            }else {
+                inserer($1, sauvType, 1);
+            }
         }else{
             printf("Erreur semantique: double declaration de %s, ligne %d, colonne %d\n", $1, nb_lignes, col);
         }
-    };
+};
+
 Declaration_Variable_Simple: Type_Donnee Groupe_Identificateurs pvg;
 Declaration_Constant: Type_Donnee mc_Const identificateur pvg {
     if(rechercherType($3)==0){
-        inserer($3, sauvType, 1);
+        if(strcmp(sauvType, "String")==0){
+            inserer($3, sauvType, 0);
+        }else {
+            inserer($3, sauvType, 1);
+        }
     }else{
         printf("Erreur semantique: double declaration de %s, ligne %d, colonne %d\n", $3, nb_lignes, col);
     }
@@ -69,7 +89,7 @@ Declaration_Tableau: Type_Donnee identificateur open_bracket_square taille close
         printf("Erreur semantique: double declaration de %s, ligne %d, colonne %d\n", $2, nb_lignes, col);
     }
 }
-Affectation_Variable_Simple: identificateur aff Expression pvg {
+Affectation_Variable_Simple: Affectation_String | identificateur aff Expression pvg {
     if(rechercherType($1)==0){
         printf("Erreur semantique: %s non déclaré, ligne %d, colonne %d\n", $1, nb_lignes, col);
     }
