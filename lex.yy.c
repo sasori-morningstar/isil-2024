@@ -530,10 +530,13 @@ char *yytext;
     #include <stdio.h>
     #include <string.h>
     #include "syntaxique.tab.h"
+    #include "ts.h"
     int nb_lignes=1;
     int col=1;
-#line 535 "lex.yy.c"
-#line 536 "lex.yy.c"
+    extern YYSTYPE yylval;
+
+#line 538 "lex.yy.c"
+#line 539 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -750,9 +753,9 @@ YY_DECL
 		}
 
 	{
-#line 20 "lexical.l"
+#line 23 "lexical.l"
 
-#line 755 "lex.yy.c"
+#line 758 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -811,28 +814,25 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 21 "lexical.l"
+#line 24 "lexical.l"
 {
     col+=yyleng;
-    printf("Début de programme détectée\n");
     return mc_program;
 }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 26 "lexical.l"
+#line 28 "lexical.l"
 {
     col+=yyleng;
-    printf("Déclaration Const détectée\n");
     return mc_Const;
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "lexical.l"
+#line 32 "lexical.l"
 {
     col+=yyleng;
-    printf("Déclaration Boucle détectée\n");
     return mc_For;
 }
 	YY_BREAK
@@ -841,126 +841,121 @@ YY_RULE_SETUP
 #line 36 "lexical.l"
 {
     col+=yyleng;
-    printf("Début boucle détectée\n");
     return mc_begin;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 41 "lexical.l"
+#line 40 "lexical.l"
 {
     col+=yyleng;
-    printf("Fin boucle détectée\n");
     return mc_end;
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 46 "lexical.l"
+#line 44 "lexical.l"
 {
     col+=yyleng;
-    printf("Fonction de lecture détectée\n");
     return mc_In;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 51 "lexical.l"
+#line 48 "lexical.l"
 {
     col+=yyleng;
-    printf("Fonction d'écriture détectée\n");
     return mc_Out;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 52 "lexical.l"
 {
     col+=yyleng;
-    printf("Type de donnée 'integer' détecté\n");
+    yylval.str=strdup(yytext);
     return mc_integer;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 57 "lexical.l"
 {
     col+=yyleng;
-    printf("Type de donnée 'float' détecté\n");
+    yylval.str=strdup(yytext);
     return mc_float;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 66 "lexical.l"
+#line 62 "lexical.l"
 {
     col+=yyleng;
-    printf("Type de donnée 'String' détecté\n");
+    yylval.str=strdup(yytext);
     return mc_String;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 69 "lexical.l"
 {
     col+=yyleng;
-    printf("L'entité 'taille' est détectée\n");
+    yylval.entier=atoi(yytext);
     return taille;    
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 78 "lexical.l"
+#line 74 "lexical.l"
 {
     col+=yyleng;
-    printf("L'entité 'integer' est détectée\n");
+    yylval.entier=atoi(yytext);
     return integer;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 83 "lexical.l"
+#line 79 "lexical.l"
 {
     col+=yyleng;
-    printf("L'entité 'float' est détectée\n");
+    yylval.numvrg=atof(yytext);
     return FLOAT_TOK;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 88 "lexical.l"
+#line 84 "lexical.l"
 {
     col+=yyleng;
-    printf("Signe de formatage détecté '%s' détecté\n", yytext);
+    yylval.str=strdup(yytext);
     return signe_formatage;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 89 "lexical.l"
 {
     col+=yyleng;
-    printf("L'entité 'String' est détectée\n");
+    yylval.str=strdup(yytext);
     return String;
 }
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 98 "lexical.l"
+#line 94 "lexical.l"
 {
     col+=yyleng;
-    printf("Un commentaire a été détectée\n");
     return commentaire;
 }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 103 "lexical.l"
+#line 98 "lexical.l"
 {
     if(yyleng<=12){
         col+=yyleng;
-        printf("L'entité 'identificateur' est détectée\n");
+        yylval.str=strdup(yytext);
         return identificateur;
     }else{
         printf("/!\\ Erreur lexical 'identificateur_trop_long', 'identificateur' ne doit pas dépasser 12 charactères, ligne %d\n", nb_lignes);
@@ -969,191 +964,172 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 112 "lexical.l"
+#line 107 "lexical.l"
 { 
     printf("/!\\ Erreur lexical: String non terminé, ligne %d\n", nb_lignes); 
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 117 "lexical.l"
+#line 112 "lexical.l"
 {
     col+=yyleng;
-    printf("Affectation détectée\n");
     return aff;
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 122 "lexical.l"
+#line 116 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'est égale à' détectée\n");
     return equals;
 }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 127 "lexical.l"
+#line 120 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'n'est pas égale à' détectée\n");
     return doesnt_equal;
 }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 132 "lexical.l"
+#line 124 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'moins que' détectée\n");
     return less;
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 137 "lexical.l"
+#line 128 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'moins que ou égale' détectée\n");
     return less_or_equals;
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 142 "lexical.l"
+#line 132 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'plus que' détectée\n");
     return greater;
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 147 "lexical.l"
+#line 136 "lexical.l"
 {
     col+=yyleng;
-    printf("Comparaison 'plus que ou égale' détectée\n");
     return greater_or_equals;
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 152 "lexical.l"
+#line 140 "lexical.l"
 {
     col+=yyleng;
-    printf("Addition détectée\n");
     return add;
 }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 157 "lexical.l"
+#line 144 "lexical.l"
 {
     col+=yyleng;
-    printf("Soustraction détectée\n");
     return substract;
 }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 162 "lexical.l"
+#line 148 "lexical.l"
 {
     col+=yyleng;
-    printf("Division détectée\n");
     return divide;
 }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 167 "lexical.l"
+#line 152 "lexical.l"
 {
     col+=yyleng;
-    printf("Multiplication détectée\n");
     return multiply;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 171 "lexical.l"
+#line 155 "lexical.l"
 {
     col+=yyleng;
-    printf("Fin instruction détectée\n");
     return pvg;
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 176 "lexical.l"
+#line 159 "lexical.l"
 {
     col+=yyleng;
-    printf("Début bloc instruction détectée\n");
     return open_bracket;
 }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 181 "lexical.l"
+#line 163 "lexical.l"
 {
     col+=yyleng;
-    printf("Fin bloc instruction détectée\n");
     return close_bracket;
 }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 186 "lexical.l"
+#line 167 "lexical.l"
 {
     col+=yyleng;
-    printf("Ouverture crochet détectée\n");
     return open_bracket_square;    
 }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 191 "lexical.l"
+#line 171 "lexical.l"
 {
     col+=yyleng;
-    printf("Fermuture crochet détectée\n");
     return close_bracket_square;
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 196 "lexical.l"
+#line 175 "lexical.l"
 {
     col+=yyleng;
-    printf("Ouverture parenthèse détectée\n");
     return open_parenthesis;
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 201 "lexical.l"
+#line 179 "lexical.l"
 {
     col+=yyleng;
-    printf("Fermuture parenthèse détectée\n");
     return close_parenthesis;
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 206 "lexical.l"
+#line 183 "lexical.l"
 {
     col+=yyleng;
-    printf("Virgule détectée\n");
     return vrg;
 }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 212 "lexical.l"
+#line 188 "lexical.l"
 {
     col+=1;
 }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 215 "lexical.l"
+#line 191 "lexical.l"
 {
     col+=1;
 }
@@ -1161,7 +1137,7 @@ YY_RULE_SETUP
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 218 "lexical.l"
+#line 194 "lexical.l"
 {
     nb_lignes++;
     col=1;
@@ -1169,7 +1145,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 223 "lexical.l"
+#line 199 "lexical.l"
 {
     printf("/!\\ Erreur lexical '%s', ligne %d, colonne %d\n", yytext, nb_lignes, col);
     return err;
@@ -1177,10 +1153,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 227 "lexical.l"
+#line 203 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1183 "lex.yy.c"
+#line 1159 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2185,7 +2161,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 227 "lexical.l"
+#line 203 "lexical.l"
 
 
 
